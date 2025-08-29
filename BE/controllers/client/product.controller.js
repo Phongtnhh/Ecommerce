@@ -14,9 +14,14 @@ module.exports.index = async (req, res) => {
         return item;
     })
 
-    res.json({
-        newProducts : newProducts,
-        layoutProductCategory : req.newProductsCategory
+    res.status(200).json({
+        code : 200,
+        massage : "Lay san pham thanh cong",
+        data : {
+            newProducts : newProducts,
+            layoutProductCategory : req.newProductsCategory
+        }
+        
     });
 }
 

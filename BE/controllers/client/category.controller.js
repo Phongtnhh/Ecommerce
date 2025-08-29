@@ -1,19 +1,16 @@
-const Product = require("../../model/product.model");
-const createTreeHelper = require("../../helpers/createTree");
+
 const ProductCategory = require("../../model/product-category.model");
-// [GET] client/home
+// [GET] category
 module.exports.index = async (req, res) => {
     let find = {
         deleted : false,
     };
-    const product =  await Product.find(find).sort({position: 1});
     const productCategory = await ProductCategory.find(find);
     res.status(200).json({
         code: 200,
         message: "Lấy danh sách sản phẩm thành công",
         data: {
-            products: product,
-            productCategory: productCategory
+            Category: productCategory
         }
     });
 

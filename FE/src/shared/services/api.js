@@ -1,7 +1,6 @@
 import axios from 'axios';
 
-// Base API configuration
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:3000/api';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
 // Create axios instance
 const api = axios.create({
@@ -15,13 +14,10 @@ const api = axios.create({
 // Request interceptor
 api.interceptors.request.use(
   (config) => {
-    // Add auth token if available
     const token = localStorage.getItem('authToken');
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
-    
-    // Add timestamp to prevent caching
     config.params = {
       ...config.params,
       _t: Date.now()
@@ -40,19 +36,15 @@ api.interceptors.response.use(
     return response.data;
   },
   (error) => {
-    // Handle common errors
     if (error.response) {
       const { status, data } = error.response;
-      
       switch (status) {
         case 401:
-          // Unauthorized - redirect to login
           localStorage.removeItem('authToken');
           localStorage.removeItem('user');
           window.location.href = '/login';
           break;
         case 403:
-          // Forbidden
           console.error('Access denied');
           break;
         case 404:
@@ -67,11 +59,9 @@ api.interceptors.response.use(
       
       return Promise.reject(data || error.response);
     } else if (error.request) {
-      // Network error
       console.error('Network error:', error.message);
       return Promise.reject({ message: 'Lỗi kết nối mạng' });
     } else {
-      // Other error
       console.error('Error:', error.message);
       return Promise.reject({ message: error.message });
     }

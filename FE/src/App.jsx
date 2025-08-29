@@ -4,7 +4,7 @@ import clientRoutes from './routes/clientRoutes';
 import adminRoutes from './routes/adminRoutes';
 
 function App() {
-  const routes = [clientRoutes, adminRoutes];
+  const routes = [...clientRoutes, adminRoutes];
   const element = useRoutes(routes);
   return element;
 }

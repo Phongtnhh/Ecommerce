@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import {CategoryService} from '../../services/categoryService';
+import {ProductService} from '../../services/productService';
 import { Link } from 'react-router-dom';
 import './Home.css';
+
 
 const Home = () => {
   // Mock data - replace with actual API calls
@@ -9,25 +12,19 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Simulate API call
-    setTimeout(() => {
-      setFeaturedProducts([
-        { id: 1, name: 'Sản phẩm 1', price: 299000, image: '/api/placeholder/300/300', rating: 4.5 },
-        { id: 2, name: 'Sản phẩm 2', price: 399000, image: '/api/placeholder/300/300', rating: 4.8 },
-        { id: 3, name: 'Sản phẩm 3', price: 199000, image: '/api/placeholder/300/300', rating: 4.2 },
-        { id: 4, name: 'Sản phẩm 4', price: 499000, image: '/api/placeholder/300/300', rating: 4.7 }
-      ]);
-      
-      setCategories([
-        { id: 1, name: 'Điện tử', icon: '📱', count: 150 },
-        { id: 2, name: 'Thời trang', icon: '👕', count: 200 },
-        { id: 3, name: 'Gia dụng', icon: '🏠', count: 80 },
-        { id: 4, name: 'Sách', icon: '📚', count: 120 }
-      ]);
-      
-      setLoading(false);
-    }, 1000);
-  }, []);
+    const fetchHome = async () => {
+      try {
+        const res = await CategoryService.getCategory();
+        const product = await ProductService.getProducts();
+        setCategories(res.data.Category);
+        setFeaturedProducts(product.data.newProducts);
+        setLoading(false);
+      } catch (error) {
+        console.error("Lỗi lấy categories:", error);
+      }
+    };
+    fetchHome();
+  },[]);
 
   if (loading) {
     return (
@@ -65,19 +62,19 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Categories Section */}
+      {/* Danh mục */}
       <section className="categories-section page-section">
         <div className="container">
           <h2 className="section-title">Danh mục sản phẩm</h2>
           <div className="categories-grid">
             {categories.map(category => (
               <Link 
-                key={category.id} 
+                key={category._id} 
                 to={`/categories/${category.id}`}
                 className="category-card"
               >
                 <div className="category-icon">{category.icon}</div>
-                <h3 className="category-name">{category.name}</h3>
+                <h3 className="category-name">{category.title}</h3>
                 <p className="category-count">{category.count} sản phẩm</p>
               </Link>
             ))}
@@ -94,30 +91,20 @@ const Home = () => {
               Xem tất cả →
             </Link>
           </div>
-          <div className="products-grid">
+          {/* Grid sản phẩm */}
+          <div className="product-grid">
             {featuredProducts.map(product => (
-              <div key={product.id} className="product-card">
-                <div className="product-image">
-                  <img src={product.image} alt={product.name} />
-                  <div className="product-overlay">
-                    <button className="quick-view-btn">Xem nhanh</button>
-                  </div>
-                </div>
+              <div className="product-card" key={product._id}>
+                <div className="discount-tag">-5%</div>
+                <img 
+                  src={product.thumbnail || "/default.jpg"} 
+                  alt={product.name} 
+                  className="product-image" 
+                />
                 <div className="product-info">
-                  <h3 className="product-name">{product.name}</h3>
-                  <div className="product-rating">
-                    <span className="stars">⭐⭐⭐⭐⭐</span>
-                    <span className="rating-text">({product.rating})</span>
-                  </div>
-                  <div className="product-price">
-                    {product.price.toLocaleString('vi-VN')}đ
-                  </div>
-                  <div className="product-actions">
-                    <button className="add-to-cart-btn">Thêm vào giỏ</button>
-                    <Link to={`/products/${product.id}`} className="view-detail-btn">
-                      Chi tiết
-                    </Link>
-                  </div>
+                  <div className="product-title">{product.title}</div>
+                  <div className="product-price">{product.price.toLocaleString()}đ</div>
+                  <div className="product-sold">Đã bán {product.soldCount || "20+"}</div>
                 </div>
               </div>
             ))}

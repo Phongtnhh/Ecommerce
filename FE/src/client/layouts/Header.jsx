@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './Header.css';
 
@@ -11,7 +11,20 @@ const Header = () => {
   const [user, setUser] = useState(null);
   const [cartItemsCount, setCartItemsCount] = useState(0);
 
+  useEffect(() => {
+    const authToken = localStorage.getItem('authToken');
+    if (authToken) {
+      setUser(JSON.parse(localStorage.getItem('user')));
+    }
+  }, []);
+
+  useEffect(() => {
+  console.log("User đã được load:", user);
+  }, [user]);
+
   const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
     setUser(null);
     navigate('/');
   };
@@ -22,7 +35,7 @@ const Header = () => {
         {/* Logo */}
         <div className="header-logo">
           <Link to="/" className="logo-link">
-            <h1>E-Commerce</h1>
+            <h1>Chopeer</h1>
           </Link>
         </div>
 
@@ -70,22 +83,22 @@ const Header = () => {
                   onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
                 >
                   <span className="user-avatar">👤</span>
-                  <span className="user-name">{user.name}</span>
+                  <span className="user-name">{user.fullName}</span>
                 </button>
                 {isUserMenuOpen && (
-                  <div className="dropdown-menu">
+                  <div className="dropdown-menu show">
                     <Link to="/profile" className="dropdown-item">Hồ sơ</Link>
                     <Link to="/orders" className="dropdown-item">Đơn hàng</Link>
-                    <Link to="/wishlist" className="dropdown-item">Yêu thích</Link>
                     <button onClick={handleLogout} className="dropdown-item">Đăng xuất</button>
                   </div>
                 )}
               </div>
             ) : (
               <div className="auth-buttons">
-                <Link to="/login" className="auth-btn login-btn">Đăng nhập</Link>
-                <Link to="/register" className="auth-btn register-btn">Đăng ký</Link>
-              </div>
+              <button className="auth-button login">Đăng nhập</button>
+              <button className="auth-button register">Đăng ký</button>
+            </div>
+
             )}
           </div>
         </div>

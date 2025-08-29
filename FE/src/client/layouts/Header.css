@@ -1,35 +1,33 @@
+/* ================== HEADER ================== */
 .header {
-  background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  background-color: #ffffff;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
   position: sticky;
   top: 0;
   z-index: 1000;
+  width: 100%;
 }
 
+/* Container */
 .header-container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 8px 16px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 70px;
 }
 
-/* Logo */
-.header-logo .logo-link {
-  text-decoration: none;
-  color: #333;
-}
-
+/* ================== LOGO ================== */
 .header-logo h1 {
   margin: 0;
-  font-size: 24px;
-  font-weight: bold;
-  color: #007bff;
+  font-size: 20px;
+  font-weight: 600;
+  color: #3498db;
+  letter-spacing: 0.5px;
 }
 
-/* Navigation */
+/* ================== NAVIGATION ================== */
 .header-nav {
   display: flex;
   align-items: center;
@@ -40,28 +38,31 @@
   list-style: none;
   margin: 0;
   padding: 0;
-  gap: 30px;
+  gap: 20px;
 }
 
 .nav-link {
   text-decoration: none;
   color: #333;
   font-weight: 500;
-  transition: color 0.3s;
+  font-size: 14px;
+  transition: color 0.3s, border-bottom 0.3s;
+  padding-bottom: 2px;
 }
 
 .nav-link:hover {
-  color: #007bff;
+  color: #3498db;
+  border-bottom: 2px solid #3498db;
 }
 
-/* Search */
+/* ================== SEARCH ================== */
 .header-search {
   display: flex;
   align-items: center;
-  background: #f8f9fa;
-  border-radius: 25px;
-  padding: 8px 15px;
-  min-width: 300px;
+  background: #f2f6fa;
+  border-radius: 18px;
+  padding: 4px 10px;
+  min-width: 220px;
 }
 
 .search-input {
@@ -69,22 +70,23 @@
   background: transparent;
   outline: none;
   flex: 1;
-  padding: 5px;
-  font-size: 14px;
+  padding: 4px;
+  font-size: 13px;
 }
 
 .search-btn {
   border: none;
   background: transparent;
   cursor: pointer;
-  padding: 5px;
+  color: #3498db;
+  font-size: 16px;
 }
 
-/* Actions */
+/* ================== ACTIONS ================== */
 .header-actions {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 14px;
 }
 
 .cart-link {
@@ -93,27 +95,27 @@
 }
 
 .cart-icon {
-  font-size: 24px;
-  position: relative;
+  font-size: 20px;
+  color: #3498db;
 }
 
 .cart-badge {
   position: absolute;
-  top: -8px;
-  right: -8px;
-  background: #dc3545;
+  top: -5px;
+  right: -7px;
+  background: #e74c3c;
   color: white;
   border-radius: 50%;
-  width: 20px;
-  height: 20px;
+  width: 15px;
+  height: 15px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 12px;
+  font-size: 10px;
   font-weight: bold;
 }
 
-/* User Menu */
+/* ================== USER MENU ================== */
 .user-dropdown {
   position: relative;
 }
@@ -121,42 +123,49 @@
 .user-btn {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   background: none;
   border: none;
   cursor: pointer;
-  padding: 8px;
-  border-radius: 8px;
+  padding: 4px 8px;
+  border-radius: 6px;
   transition: background-color 0.3s;
+  font-size: 14px;
 }
 
 .user-btn:hover {
-  background-color: #f8f9fa;
+  background-color: #f2f6fa;
 }
 
 .user-avatar {
-  font-size: 20px;
+  font-size: 18px;
+  color: #3498db;
 }
 
 .dropdown-menu {
+  display: none;
   position: absolute;
-  top: 100%;
+  top: 105%;
   right: 0;
-  background: white;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-  min-width: 150px;
+  background: #fff;
+  border: 1px solid #e1e5eb;
+  border-radius: 6px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.08);
+  min-width: 140px;
   z-index: 1001;
+}
+
+.dropdown-menu.show {
+  display: block;
 }
 
 .dropdown-item {
   display: block;
   width: 100%;
-  padding: 12px 16px;
+  padding: 8px 12px;
   text-decoration: none;
   color: #333;
-  border: none;
+  font-size: 13px;
   background: none;
   text-align: left;
   cursor: pointer;
@@ -164,65 +173,68 @@
 }
 
 .dropdown-item:hover {
-  background-color: #f8f9fa;
+  background-color: #f2f6fa;
+  color: #3498db;
 }
 
-/* Auth Buttons */
+/* ================== AUTH ================== */
 .auth-buttons {
   display: flex;
-  gap: 10px;
+  gap: 12px;
 }
 
-.auth-btn {
-  padding: 8px 16px;
-  text-decoration: none;
-  border-radius: 6px;
-  font-weight: 500;
-  transition: all 0.3s;
+.auth-button {
+  padding: 8px 18px;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 500; /* không quá đậm */
+  cursor: pointer;
+  border: none;
+  transition: all 0.3s ease;
 }
 
-.login-btn {
-  color: #007bff;
-  border: 1px solid #007bff;
-}
-
-.login-btn:hover {
-  background-color: #007bff;
+/* Nút đăng nhập */
+.auth-button.login {
+  background: linear-gradient(90deg, #007bff, #0056d2);
   color: white;
 }
 
-.register-btn {
-  background-color: #007bff;
+.auth-button.login:hover {
+  background: linear-gradient(90deg, #0056d2, #003a99);
+}
+
+/* Nút đăng ký */
+.auth-button.register {
+  background: #36a2eb;
   color: white;
-  border: 1px solid #007bff;
 }
 
-.register-btn:hover {
-  background-color: #0056b3;
+.auth-button.register:hover {
+  background: #1e90ff;
 }
 
-/* Mobile Menu */
+
+/* ================== MOBILE ================== */
 .mobile-menu-toggle {
   display: none;
   flex-direction: column;
   background: none;
   border: none;
   cursor: pointer;
-  padding: 5px;
+  padding: 4px;
 }
 
 .hamburger {
-  width: 25px;
-  height: 3px;
+  width: 22px;
+  height: 2px;
   background-color: #333;
   margin: 3px 0;
   transition: 0.3s;
 }
 
-/* Mobile Responsive */
 @media (max-width: 768px) {
   .header-container {
-    padding: 0 15px;
+    padding: 8px 12px;
   }
   
   .header-nav {
@@ -231,8 +243,8 @@
     top: 100%;
     left: 0;
     right: 0;
-    background: white;
-    border-top: 1px solid #ddd;
+    background: #ffffff;
+    border-top: 1px solid #e1e5eb;
   }
   
   .nav-open {
@@ -241,8 +253,8 @@
   
   .nav-list {
     flex-direction: column;
-    padding: 20px;
-    gap: 15px;
+    padding: 15px;
+    gap: 10px;
   }
   
   .header-search {
@@ -255,11 +267,11 @@
   
   .auth-buttons {
     flex-direction: column;
-    gap: 5px;
+    gap: 6px;
   }
   
   .auth-btn {
-    padding: 6px 12px;
-    font-size: 14px;
+    padding: 5px 10px;
+    font-size: 13px;
   }
 }

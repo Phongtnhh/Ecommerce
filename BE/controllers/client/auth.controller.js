@@ -39,7 +39,8 @@ module.exports.register = async (req, res) => {
 
         return res.json({
             code: 200,
-            token: token,
+            message: "Đăng ký thành công!",
+            data : {token: token}
         });
     } catch (error) {
         console.error(error);
@@ -96,11 +97,19 @@ module.exports.login = async (req, res) => {
         };
 
     const token = jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: "1h" });
-    
-    res.json({
+    const inforUser =  {
+        fullName: user.fullName,
+        email: user.email,
+        phone: user.phone,
+        address: user.address,
+    }
+    res.status(200).json({
         code : 200,
         massage: "khi ban thay tin nhan nay, ban da dang nhap thanh cong",
-        token : token,
+        data : {
+            token: token,
+            user: inforUser,
+        },  
     })
 }
 
@@ -156,7 +165,7 @@ module.exports.otp = async (req, res) => {
     });
     
     if(!result){
-        res.json({
+        res.status(400).json({
             code : 400,
             massage: "OTP khong hop le"
         })
@@ -167,9 +176,10 @@ module.exports.otp = async (req, res) => {
         email: email,
     });
 
-    res.json({
+    res.status(200).json({
         code : 200,
-        user: user
+        massage : "OTP hop le",
+        data : {user: user}
     })
 }
 

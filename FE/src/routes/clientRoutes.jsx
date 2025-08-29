@@ -1,10 +1,12 @@
 import React from 'react';
 import ClientLayout from '../client/layouts/ClientLayout';
-import Home from '../client/pages/Home';
+import Home from '../client/pages/Home/Home';
+import Register from '../client/pages/Register/Register';
 import Products from '../client/pages/Products';
-import Login from '../client/pages/Login';
-
-const clientRoutes = {
+import Login from '../client/pages/Login/Login';
+import AuthLayout from '../client/layouts/authLayout/AuthLayout';
+const clientRoutes = [
+    {
     path: "/",
     element: <ClientLayout />,
     children: [
@@ -37,14 +39,6 @@ const clientRoutes = {
             element: <div>Checkout Page - Coming Soon</div>
         },
         {
-            path: "login",
-            element: <Login />
-        },
-        {
-            path: "register",
-            element: <div>Register Page - Coming Soon</div>
-        },
-        {
             path: "profile",
             element: <div>Profile Page - Coming Soon</div>
         },
@@ -64,7 +58,16 @@ const clientRoutes = {
             path: "contact",
             element: <div>Contact Page - Coming Soon</div>
         }
+   ],
+  },
+  {
+    path: '/auth',
+    element: <AuthLayout />,
+    children: [
+      { path: 'login', element: <Login /> },
+      { path: 'register', element: <Register /> },
     ]
-}
+  }
+];
 
 export default clientRoutes;

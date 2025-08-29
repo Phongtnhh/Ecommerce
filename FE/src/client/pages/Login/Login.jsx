@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { LoginService } from '../../services/login';
 import './Login.css';
 
 const Login = () => {
@@ -17,7 +18,7 @@ const Login = () => {
       ...prev,
       [name]: value
     }));
-    // Clear error when user starts typing
+    
     if (errors[name]) {
       setErrors(prev => ({
         ...prev,
@@ -55,16 +56,13 @@ const Login = () => {
     setLoading(true);
     
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
-      // Mock successful login
-      console.log('Login data:', formData);
-      
-      // Redirect to home page
+      const response = await LoginService.login(formData);
+      console.log(response.data);
+      localStorage.setItem('authToken', response.data.token);
+      localStorage.setItem('user', JSON.stringify(response.data.user));
       navigate('/');
     } catch (error) {
-      setErrors({ general: 'Đăng nhập thất bại. Vui lòng thử lại.' });
+      setErrors({ general: 'Đăng nhập thất bại. Vui lòng thử lại.' + error });
     } finally {
       setLoading(false);
     }
@@ -166,7 +164,7 @@ const Login = () => {
           <div className="login-footer">
             <p>
               Chưa có tài khoản? 
-              <Link to="/register" className="register-link">
+              <Link to="/auth/register" className="register-link">
                 Đăng ký ngay
               </Link>
             </p>

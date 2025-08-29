@@ -10,10 +10,12 @@ const checkoutRoute = require("./checkout.route");
 const authRoute = require("./auth.route");
 const userRoute = require("./user.route");
 const orderRoute = require("./order.route");
+const categoryRoutes = require("./category.route");
 module.exports = (app) => {
     app.use(categoryMiddleware.category);
     app.use(cartMiddleware.cartId); // lấy ra số lượng sp trong giỏ hàng
     app.use("/", homeRoutes );
+    app.use("/category", categoryRoutes);
     app.use("/products", productRoutes);
     app.use("/search", searchRoute);
     app.use("/cart",userMiddleware.infoUser, cartRoute);
