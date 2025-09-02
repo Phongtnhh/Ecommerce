@@ -59,6 +59,7 @@ const Login = () => {
       const response = await LoginService.login(formData);
       console.log(response.data);
       localStorage.setItem('authToken', response.data.token);
+      localStorage.setItem('countCart', response.data.user.countCart);
       localStorage.setItem('user', JSON.stringify(response.data.user));
       navigate('/');
     } catch (error) {

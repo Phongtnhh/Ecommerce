@@ -68,11 +68,12 @@ const Home = () => {
           <h2 className="section-title">Danh mục sản phẩm</h2>
           <div className="categories-grid">
             {categories.map(category => (
-              <Link 
-                key={category._id} 
-                to={`/categories/${category.id}`}
+              <Link
+                key={category._id}
+                to={`/products/${category.slug}`}
                 className="category-card"
               >
+
                 <div className="category-icon">{category.icon}</div>
                 <h3 className="category-name">{category.title}</h3>
                 <p className="category-count">{category.count} sản phẩm</p>
@@ -94,7 +95,7 @@ const Home = () => {
           {/* Grid sản phẩm */}
           <div className="product-grid">
             {featuredProducts.map(product => (
-              <div className="product-card" key={product._id}>
+              <Link to={`/products/detail/${product.slug}`} className="product-card" key={product._id}>
                 <div className="discount-tag">-5%</div>
                 <img 
                   src={product.thumbnail || "/default.jpg"} 
@@ -106,7 +107,7 @@ const Home = () => {
                   <div className="product-price">{product.price.toLocaleString()}đ</div>
                   <div className="product-sold">Đã bán {product.soldCount || "20+"}</div>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>

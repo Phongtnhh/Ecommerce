@@ -35,7 +35,13 @@ module.exports.detail = async (req, res) => {
         };
         
         const product = await  Product.findOne(find);
-        res.json(product);
+        res.json({
+            code : 200,
+            massage : "san pham theo danh muc",
+            data :{
+                product : product,
+            }
+        });
     }catch(error){
         req.flash("error", "loi truy cap!");
         res.redirect("/products");  

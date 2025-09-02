@@ -89,19 +89,24 @@ module.exports.login = async (req, res) => {
     const cart = await Cart.findOne({
             user_id : user.id
         })
+    cart.totalQuantity = cart.products.reduce((sum, item) => sum + item.quantity, 0);
 
     const payload = {
             user_id: user.id,
             email : req.body.email,
-            cartId : cart.id
+            cartId : cart.id,
+
         };
 
-    const token = jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: "1h" });
+    const token = jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: "24h" });
     const inforUser =  {
         fullName: user.fullName,
         email: user.email,
         phone: user.phone,
+        image_avatar: user.image_avatar,
         address: user.address,
+        countCart : cart.totalQuantity,
+
     }
     res.status(200).json({
         code : 200,

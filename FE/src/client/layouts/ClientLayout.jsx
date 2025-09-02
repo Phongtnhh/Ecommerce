@@ -6,13 +6,15 @@ import './ClientLayout.css';
 
 const ClientLayout = () => {
   return (
-    <div className="client-layout">
+      <> 
       <Header />
+    <div className="client-layout">
       <main className="main-content">
         <Outlet />
       </main>
       <Footer />
     </div>
+    </>
   );
 };
 

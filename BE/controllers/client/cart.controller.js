@@ -75,12 +75,12 @@ module.exports.addPost = async (req, res) => {
             }
         );
 
-        res.json({
+        res.status(200).json({
+            success: true,
             code : 200,
-            massage : "thanh cong"
+            massage : "thanh cong",
         })
     }
-
     
 };  
 
@@ -125,20 +125,27 @@ module.exports.delete = async (req, res) => {
 // [POST] cart/update-quantity
 module.exports.updateQuantity = async (req, res) => {
     const cartId = req.cartId;
-    const productId = req.body.productId;
+    const productId = req.body.product_id;
     const quantity = req.body.quantity;
 
-    await Cart.updateOne({
-        _id : cartId,
-        "products.product_id" : productId,
-    },{
-        $set : {
-            "products.$.quantity" : quantity,
-        },
-    });
-    res.json({
-        code : 200,
-        massage : "update thanh cong"
+    try {
+        await Cart.updateOne({
+            _id : cartId,
+            "products.product_id" : productId,
+        },{
+            $set : {
+                "products.$.quantity" : quantity,
+            },
+        });
+        res.json({
+            code : 200,
+            message : "Cập nhật số lượng thành công"
+        });
+    } catch (error) {
+        res.status(500).json({
+            code : 500,
+            message : "Lỗi khi cập nhật số lượng",
+            error: error.message
+        });
     }
-    )
-}; 
+};

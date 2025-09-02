@@ -2,11 +2,17 @@ import React from 'react';
 import ClientLayout from '../client/layouts/ClientLayout';
 import Home from '../client/pages/Home/Home';
 import Register from '../client/pages/Register/Register';
-import Products from '../client/pages/Products';
+import Products from '../client/pages/Products/Product';
 import Login from '../client/pages/Login/Login';
 import AuthLayout from '../client/layouts/authLayout/AuthLayout';
+import DetailProduct from '../client/pages/DetailProduct/detailProduct';
+import ProductbyCategory from '../client/pages/ProductbyCategory/ProductbyCategory';
+import Profile from '../client/pages/Profile/Profile';
+import Cart from '../client/pages/Cart/Cart';
+import Order from '../client/pages/Order/Order';
+import SearchResults from '../client/pages/Search/SearchResults';
 const clientRoutes = [
-    {
+    {   
     path: "/",
     element: <ClientLayout />,
     children: [
@@ -19,12 +25,12 @@ const clientRoutes = [
             element: <Products />
         },
         {
-            path: "products/:id",
-            element: <div>Product Detail Page - Coming Soon</div>
+            path: "/products/detail/:slug",
+            element: <DetailProduct />
         },
         {
-            path: "categories",
-            element: <div>Categories Page - Coming Soon</div>
+            path: "products/:slugCategory",
+            element: <ProductbyCategory />
         },
         {
             path: "categories/:id",
@@ -32,7 +38,15 @@ const clientRoutes = [
         },
         {
             path: "cart",
-            element: <div>Cart Page - Coming Soon</div>
+            element: <Cart />
+        },
+        {
+            path: "order",
+            element: <Order />
+        },
+        {
+            path: "search",
+            element: <SearchResults />
         },
         {
             path: "checkout",
@@ -40,7 +54,7 @@ const clientRoutes = [
         },
         {
             path: "profile",
-            element: <div>Profile Page - Coming Soon</div>
+            element: <Profile />
         },
         {
             path: "orders",

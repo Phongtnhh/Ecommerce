@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import SearchBox from '../components/Search/SearchBox';
 import './Header.css';
 
 const Header = () => {
@@ -15,16 +16,25 @@ const Header = () => {
     const authToken = localStorage.getItem('authToken');
     if (authToken) {
       setUser(JSON.parse(localStorage.getItem('user')));
+      setCartItemsCount(parseInt(localStorage.getItem('countCart')) || 0);
     }
+
+    // Listen for cart updates
+    const handleCartUpdate = (event) => {
+      setCartItemsCount(event.detail.count);
+    };
+
+    window.addEventListener('cartUpdated', handleCartUpdate);
+
+    return () => {
+      window.removeEventListener('cartUpdated', handleCartUpdate);
+    };
   }, []);
-
-  useEffect(() => {
-  console.log("User đã được load:", user);
-  }, [user]);
-
   const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
+    localStorage.removeItem('countCart');
+    setCartItemsCount(0); 
     setUser(null);
     navigate('/');
   };
@@ -44,23 +54,13 @@ const Header = () => {
           <ul className="nav-list">
             <li><Link to="/" className="nav-link">Trang chủ</Link></li>
             <li><Link to="/products" className="nav-link">Sản phẩm</Link></li>
-            <li><Link to="/categories" className="nav-link">Danh mục</Link></li>
             <li><Link to="/about" className="nav-link">Giới thiệu</Link></li>
             <li><Link to="/contact" className="nav-link">Liên hệ</Link></li>
           </ul>
         </nav>
 
         {/* Search Bar */}
-        <div className="header-search">
-          <input 
-            type="text" 
-            placeholder="Tìm kiếm sản phẩm..." 
-            className="search-input"
-          />
-          <button className="search-btn">
-            <i className="search-icon">🔍</i>
-          </button>
-        </div>
+        <SearchBox className="header-search" />
 
         {/* User Actions */}
         <div className="header-actions">
@@ -95,8 +95,8 @@ const Header = () => {
               </div>
             ) : (
               <div className="auth-buttons">
-              <button className="auth-button login">Đăng nhập</button>
-              <button className="auth-button register">Đăng ký</button>
+              <Link to ="/auth/login" className="auth-button login">Đăng nhập</Link>
+              <Link to ="/auth/register" className="auth-button register">Đăng ký</Link>
             </div>
 
             )}
