@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { OrderService } from '../../services/orderService';
 import MapSelector from '../../components/Map/MapSelector';
 import './Order.css';
 
@@ -18,7 +17,6 @@ const Order = () => {
     paymentMethod: 'cod' // Default to cash on delivery
   });
   const [isMapMode, setIsMapMode] = useState(false);
-  const [loading, setLoading] = useState(false);
 
   // Redirect if no products selected
   useEffect(() => {
@@ -68,39 +66,27 @@ const Order = () => {
   const handleSubmitOrder = async () => {
     if (!validateForm()) return;
 
-    setLoading(true);
-    try {
-      const orderPayload = {
-        status: "pending",
-        userInfo: {
-          fullName: orderData.fullName,
-          phone: orderData.phone,
-          address: orderData.address,
-          toadoa: {
-            type: "Point",
-            coordinates: orderData.coordinates
-          }
-        },
-        products: selectedProducts.map(item => ({
-          product_id: item.product_id,
-          price: item.productInfo.price,
-          discountPercentage: item.productInfo.discountPercentage || 0,
-          quantity: item.quantity
-        }))
-      };
-
-      const response = await OrderService.createOrder(orderPayload);
-      if (response?.message) {
-        toast.success('Đặt hàng thành công!');
-        navigate('/orders');
+    // Chuẩn bị dữ liệu đơn hàng
+    const orderPayload = {
+      userInfo: {
+        fullName: orderData.fullName,
+        phone: orderData.phone,
+        address: orderData.address,
+        toadoa: {
+          type: "Point",
+          coordinates: orderData.coordinates
+        }
       }
+    };
 
-    } catch (error) {
-      console.error('Order error:', error);
-      toast.error('Có lỗi xảy ra khi đặt hàng');
-    } finally {
-      setLoading(false);
-    }
+    // Chuyển hướng đến trang checkout với dữ liệu đơn hàng
+    navigate('/checkout', {
+      state: {
+        orderData: orderPayload,
+        selectedProducts,
+        totalAmount
+      }
+    });
   };
 
   if (!selectedProducts || selectedProducts.length === 0) {
@@ -284,9 +270,9 @@ const Order = () => {
             <button
               className="submit-order-btn"
               onClick={handleSubmitOrder}
-              disabled={loading || !orderData.coordinates}
+              disabled={!orderData.coordinates}
             >
-              {loading ? 'Đang xử lý...' : 'Đặt hàng'}
+              Tiếp tục thanh toán
             </button>
           </div>
         </div>

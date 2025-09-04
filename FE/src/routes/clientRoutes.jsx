@@ -10,6 +10,9 @@ import ProductbyCategory from '../client/pages/ProductbyCategory/ProductbyCatego
 import Profile from '../client/pages/Profile/Profile';
 import Cart from '../client/pages/Cart/Cart';
 import Order from '../client/pages/Order/Order';
+import Checkout from '../client/pages/Checkout/Checkout';
+import Orders from '../client/pages/Orders/Orders';
+import OrderDetail from '../client/pages/OrderDetail/OrderDetail';
 import SearchResults from '../client/pages/Search/SearchResults';
 const clientRoutes = [
     {   
@@ -50,7 +53,7 @@ const clientRoutes = [
         },
         {
             path: "checkout",
-            element: <div>Checkout Page - Coming Soon</div>
+            element: <Checkout />
         },
         {
             path: "profile",
@@ -58,7 +61,11 @@ const clientRoutes = [
         },
         {
             path: "orders",
-            element: <div>Orders Page - Coming Soon</div>
+            element: <Orders />
+        },
+        {
+            path: "orders/:id",
+            element: <OrderDetail />
         },
         {
             path: "wishlist",

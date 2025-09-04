@@ -57,24 +57,35 @@ module.exports.category = async (req, res) => {
             deleted: false,
             status : "active"
         });
-        const listSubCategory = await ProductCategoryHelper.getSubCategory(productCategory.id); 
-    
-        const listSubCategoryId = listSubCategory.map(item => item.id);
+
+        if (!productCategory) {
+            return res.json({
+                code : 404,
+                massage : "Không tìm thấy danh mục",
+                products : []
+            });
+        }
+
+        const listSubCategory = await ProductCategoryHelper.getSubCategory(productCategory._id);
+
+        const listSubCategoryId = listSubCategory.map(item => item._id.toString());
         const products = await Product.find({
-            product_category_id : {$in : [productCategory.id, ...listSubCategoryId]},
+            product_category_id : {$in : [productCategory._id.toString(), ...listSubCategoryId]},
             deleted : false,
+            status: "active"
         }).sort({ position: "desc"});
 
         res.json({
             code : 200,
             massage : "san pham theo danh muc",
-            products : products 
+            products : products
         })
     }catch(error){
+        console.error("Error in category controller:", error);
         res.json({
             code : 404,
             massage : "loi"
         })
     }
-    
+
 }

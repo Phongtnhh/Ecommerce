@@ -98,7 +98,7 @@ module.exports.login = async (req, res) => {
 
         };
 
-    const token = jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: "24h" });
+    const token = jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: "2h" });
     const inforUser =  {
         fullName: user.fullName,
         email: user.email,

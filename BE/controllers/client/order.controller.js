@@ -27,7 +27,7 @@ module.exports.postOder = async (req, res) => {
 
         const newOrder = new Order({
             user_id,
-            status: status || 'pending', 
+            status: status || 'pending',
             userInfo: {
                 fullName: userInfo.fullName,
                 phone: userInfo.phone,
@@ -36,6 +36,10 @@ module.exports.postOder = async (req, res) => {
                     type: 'Point',
                     coordinates: userInfo.toadoa.coordinates
                 }
+            },
+            toadoaDon: {
+                type: 'Point',
+                coordinates: [105.854444, 21.028511] // Default store location (Hanoi center)
             },
             products,
             deleted: false
@@ -50,18 +54,27 @@ module.exports.postOder = async (req, res) => {
     }
 };
 
-// [GET] /View order cuar 1 nguoi dung
+// [GET] /View orders of a user
 module.exports.view = async (req, res) => {
-    const id = req.user.id;
-    console.log(id);
-    const record = await Order.findOne({
-        user_id : id,
-    })
-   res.json({ 
-        code : 200,
-        order : record,
-   }
-   )
+    try {
+        const id = req.user.id;
+        const records = await Order.find({
+            user_id: id,
+            deleted: false
+        }).sort({ createdAt: -1 });
+
+        res.json({
+            code: 200,
+            orders: records,
+        });
+    } catch (error) {
+        console.error("Error fetching user orders:", error);
+        res.status(500).json({
+            code: 500,
+            message: "Lỗi máy chủ",
+            error: error.message
+        });
+    }
 };
 
 // [] View 1 don hang chi tiet
